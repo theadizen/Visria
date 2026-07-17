@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visria | Bangles Collection</title>
+    
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons (Vanilla JS version) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            /* Primary Brand Colors */
+            --brand-primary: #B7A9C2; 
+            --brand-dark: #5C4E68;
+            
+            /* Neutral Palette */
+            --charcoal: #2A2A2A;
+            --warm-gray: #7A7A7A;
+            --light-gray: #E8E8E8;
+            --ivory: #FCFAF8; /* Warmer luxury ivory */
+            --white: #FFFFFF;
+            --black: #000000;
+
+            /* Typography */
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--charcoal);
+            background-color: var(--brand-primary); 
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            line-height: 1.6;
+            overflow-x: hidden; 
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .site-wrapper {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            background-color: var(--brand-primary);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .section {
+            padding: 4rem 1.25rem;
+            background-color: transparent;
+        }
+        
+        .container {
+            padding: 0;
+            max-width: 1536px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 1024px) {
+            .section {
+                padding: 8rem 4rem; 
+            }
+        }
+
+        .text-center { text-align: center; }
+        .font-serif { font-family: var(--font-serif); }
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .uppercase { text-transform: uppercase; }
+        .tracking-widest { letter-spacing: 0.1em; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-light { font-weight: 300; }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        .btn-primary {
+            background-color: var(--brand-dark);
+            color: var(--white);
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 0.85rem 1.75rem;
+            border-radius: 9999px; /* Pill shape */
+            display: inline-block;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            max-width: 1536px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 1024px) {
+            .header-top { padding: 1.5rem 4rem; }
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 0.75rem; }
+
+        .logo-mark {
+            width: 1.75rem;
+            height: 1.75rem;
+            background-color: var(--brand-primary);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--white);
+            font-family: var(--font-serif); font-weight: 600; font-size: 1rem;
+        }
+
+        .logo-text { color: var(--charcoal); font-size: 1.25rem; font-weight: 500; }
+
+        .header-icons { display: flex; align-items: center; color: var(--charcoal); }
+        .header-icons i { width: 20px; height: 20px; }
+
+        .slide-menu {
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100vh;
+            background-color: var(--white); z-index: 1000; display: flex; flex-direction: column;
+            transition: right 0.6s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+        }
+
+        .slide-menu.active { right: 0; }
+
+        .menu-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+            z-index: 999; opacity: 0; visibility: hidden; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .menu-overlay.active { opacity: 1; visibility: visible; }
+
+        .slide-menu-header {
+            display: flex; justify-content: space-between; align-items: center; padding: 2rem 2.5rem; border-bottom: 1px solid rgba(42, 42, 42, 0.05);
+        }
+
+        .slide-menu-title {
+            font-family: var(--font-serif); font-size: 1.25rem; color: var(--charcoal); text-transform: uppercase; letter-spacing: 0.1em;
+        }
+
+        .slide-menu-body {
+            display: flex; flex-direction: column; flex-grow: 1; padding: 3rem 2.5rem; overflow-y: auto;
+        }
+
+        .slide-menu-links { display: flex; flex-direction: column; gap: 2rem; }
+        .slide-menu-links a { font-family: var(--font-serif); font-size: 1.75rem; color: var(--charcoal); transition: color 0.4s ease; }
+
+        .category-hero {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background-color: var(--charcoal);
+            overflow: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            .category-hero {
+                height: 400px;
+                border-radius: 16px; /* Smooth premium rounded corners */
+                border: 1px solid rgba(0,0,0,0.05);
+                max-width: 1536px; 
+                margin: 2rem auto; 
+                box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            }
+        }
+
+        .category-hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .category-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0,0,0,0.45); /* Dark overlay */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 1.5rem;
+        }
+
+        .category-hero-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        @media (min-width: 768px) {
+            .category-hero-title { font-size: 4rem; }
+        }
+
+        .category-hero-subtitle {
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+            max-width: 500px;
+            opacity: 0.9;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 768px) {
+            .product-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .product-grid { grid-template-columns: repeat(4, 1fr); gap: 2.5rem; }
+        }
+
+        .product-card {
+            background-color: var(--ivory); 
+            border-radius: 16px; 
+            border: 1px solid rgba(0,0,0,0.05); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden; 
+        }
+
+        .product-img-wrap {
+            background-color: var(--ivory);
+            aspect-ratio: 1/1; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0; 
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        @media (min-width: 1024px) {
+            .product-card:hover .product-img { transform: scale(1.03); }
+            .product-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.08); transform: translateY(-4px); }
+        }
+
+        .product-info-center { 
+            text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: center; padding: 1.25rem 1rem;
+        }
+        
+        .product-name {
+            font-size: 1rem; font-weight: 500; color: var(--charcoal); margin-bottom: 0.25rem; letter-spacing: 0.02em;
+        }
+
+        .cta-container {
+            background-color: var(--white);
+            border-radius: 24px;
+            padding: 3rem 1.5rem;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .cta-container { padding: 5rem 3rem; }
+        }
+
+        .footer { background-color: var(--charcoal); color: var(--white); padding-top: 2rem; }
+        
+        .footer-new-grid {
+            display: grid; grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.25rem; text-align: left;
+        }
+
+        @media (min-width: 768px) { .footer-new-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .footer-new-grid { grid-template-columns: repeat(4, 1fr); gap: 4rem; padding: 6rem 4rem 4rem; } }
+
+        .footer-col .logo-area { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .footer-col .logo-mark { background-color: var(--brand-primary); }
+        .footer-col p { font-size: 0.85rem; color: var(--light-gray); margin-bottom: 0.85rem; line-height: 1.6; }
+        .footer-heading { font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--white); font-weight: 400; letter-spacing: 0.05em; }
+        .footer-links { padding: 0; margin: 0; list-style: none; }
+        .footer-links li { margin-bottom: 0.85rem; }
+        .footer-links a { font-size: 0.85rem; color: var(--light-gray); text-decoration: none; }
+
+        .footer-bottom {
+            padding: 2rem 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; gap: 1rem; text-align: left;
+        }
+
+        @media (min-width: 1024px) { .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; padding: 2rem 4rem; } }
+        .footer-bottom p { color: var(--warm-gray); font-size: 0.75rem; }
+        .footer-bottom-links { display: flex; flex-wrap: wrap; gap: 1.5rem; font-size: 0.75rem; color: var(--warm-gray); }
+
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 2rem;
+            opacity: 0; visibility: hidden; transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal-content {
+            background: var(--white); width: 100%; max-width: 380px; border-radius: 24px; padding: 1rem; 
+            box-shadow: 0 40px 100px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.6); display: flex; flex-direction: column;
+            position: relative; transform: scale(0.95) translateY(20px); transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+
+        .modal-image-wrap { position: relative; width: 100%; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; }
+        .modal-image-wrap img { width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; }
+
+        .modal-close {
+            position: absolute; top: 0.75rem; right: 0.75rem; width: 2.25rem; height: 2.25rem; border-radius: 50%;
+            background: var(--white); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 20; transition: transform 0.3s ease; color: var(--charcoal);
+        }
+        
+        .modal-close:hover { transform: scale(1.1); }
+        
+        .modal-btn {
+            background-color: #C69C8A; color: var(--white); border-radius: 9999px; padding: 1.15rem; display: flex; justify-content: center;
+            align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            box-shadow: 0 4px 15px rgba(198, 156, 138, 0.4); transition: transform 0.3s ease, box-shadow 0.3s ease; width: 100%;
+        }
+
+        .modal-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(198, 156, 138, 0.6); }
+
+    </style>
+</head>
+<body>
+
+<div class="site-wrapper">
+
+    <header class="header fade-in">
+        <div class="header-top">
+            <a href="index.html" class="logo-area">
+                <div class="logo-mark">V</div>
+                <h1 class="font-serif uppercase tracking-widest logo-text">Visria</h1>
+            </a>
+            <div class="header-icons">
+                <a href="https://maps.app.goo.gl/ZrxroiNzPK4LBLRB7" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; color: inherit;">
+                    <i data-lucide="map-pin"></i>
+                </a>
+                <i data-lucide="menu" id="menu-btn" style="margin-left: 1.25rem; cursor: pointer;"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="slide-menu" id="slide-menu">
+        <div class="slide-menu-header">
+            <span class="slide-menu-title">Menu</span>
+            <i data-lucide="x" id="menu-close" style="cursor: pointer; width: 24px; height: 24px; color: var(--charcoal);"></i>
+        </div>
+        <div class="slide-menu-body">
+            <ul class="slide-menu-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="bangles.html">Bangles</a></li>
+                <li><a href="chains.html">Chains</a></li>
+                <li><a href="ring.html">Rings</a></li>
+                <li><a href="necklace.html">Necklaces</a></li>
+                <li><a href="ear.html">Earrings</a></li>
+                <li><a href="bridal.html">Bridal</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <section class="category-hero fade-in delay-1">
+        <img src="assets/banner/bangles.webp" alt="Bangles Collection Banner" class="category-hero-img">
+        <div class="category-hero-overlay">
+            <h1 class="category-hero-title">RING</h1>
+            <p class="category-hero-subtitle">Discover handcrafted bangles designed with timeless elegance.</p>
+        </div>
+    </section>
+
+    <section class="section fade-in delay-2">
+        <div class="container">
+            <div class="product-grid">
+                <!-- Product 1 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 2 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 3 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 4 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 5 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 6 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 7 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 8 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 9 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 10 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 11 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 12 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 13 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                       <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 14 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 15 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+                <!-- Product 16 -->
+                <div class="product-card" onclick="openProductModal(this)">
+                    <div class="product-img-wrap">
+                        <img src="assets/featured/1.webp" alt="22K Gold Bangle" class="product-img">
+                        <img src="assets/models/featured/1.jpg" class="preview-img" style="display: none;">
+                    </div>
+                    <div class="product-info-center">
+                        <h4 class="product-name font-serif">22K Gold</h4>
+                        <p class="text-xs uppercase tracking-widest font-semibold" style="color: var(--warm-gray);">BIS Hallmarked</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section fade-in">
+        <div class="container text-center cta-container">
+            <h3 class="font-serif text-3xl" style="color: var(--charcoal); margin-bottom: 1rem;">See the Full Bangles Collection</h3>
+            <p class="text-base" style="color: var(--warm-gray); margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Experience the complete range of our handcrafted bangles in person. Visit our showroom today for a personalized consultation with our expert stylists.
+            </p>
+            <a href="https://maps.app.goo.gl/ZrxroiNzPK4LBLRB7" target="_blank" rel="noopener noreferrer" class="btn-primary" style="width: auto; min-width: 200px; padding: 1.15rem 2.5rem; display: inline-flex; justify-content: center; align-items: center; gap: 0.5rem;">
+                <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i> Visit Store
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer fade-in">
+        <div class="container footer-new-grid">
+            <div class="footer-col">
+                <div class="logo-area">
+                    <div class="logo-mark">V</div>
+                    <h2 class="font-serif uppercase tracking-widest logo-text" style="color: var(--white);">Visria</h2>
+                </div>
+                <p>Premium luxury jewellery crafted for generations. Experience elegance at our flagship boutique.</p>
+                <p>100% BIS Hallmarked Jewellery</p>
+                <p>Trusted Jewellery Showroom</p>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Collections</h4>
+                <ul class="footer-links">
+                <li><a href="bangles.html">Bangles</a></li>
+                <li><a href="chains.html">Chains</a></li>
+                <li><a href="ring.html">Rings</a></li>
+                <li><a href="necklace.html">Necklaces</a></li>
+                <li><a href="ear.html">Earrings</a></li>
+                <li><a href="bridal.html">Bridal</a></li>
+                    
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Visit Us</h4>
+                <ul class="footer-links">
+                    <li><a href="https://maps.app.goo.gl/ZrxroiNzPK4LBLRB7" target="_blank" rel="noopener noreferrer">123 Luxury Avenue, Diamond District</a></li>
+                    <li><a href="#">+91 98765 43210</a></li>
+                    <li><a href="#">WhatsApp Us</a></li>
+                    <li><a href="#">boutique@visria.com</a></li>
+                    <li><a href="#">10:30 AM - 8:30 PM (All Days)</a></li>
+                    <li><a href="https://maps.app.goo.gl/ZrxroiNzPK4LBLRB7" target="_blank" rel="noopener noreferrer" style="color: var(--brand-primary);">Get Google Maps Directions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Follow Us</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <p>Copyright © 2026 Visria. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+                <span>Designed by Visria</span>
+            </div>
+        </div>
+    </footer>
+
+    <div id="product-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-image-wrap">
+                <button class="modal-close" onclick="closeProductModal()">
+                    <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                </button>
+                <img id="modal-img" src="" alt="Premium Jewellery Preview">
+            </div>
+            <a href="https://maps.app.goo.gl/ZrxroiNzPK4LBLRB7" target="_blank" rel="noopener noreferrer" class="modal-btn">
+                <i data-lucide="map-pin" style="width: 14px; height: 14px;"></i> Visit Store
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    lucide.createIcons();
+
+    // Menu Logic
+    const menuBtn = document.getElementById('menu-btn');
+    const menuClose = document.getElementById('menu-close');
+    const slideMenu = document.getElementById('slide-menu');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    function openMenu() {
+        slideMenu.classList.add('active');
+        menuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeMenu() {
+        slideMenu.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    if(menuBtn) menuBtn.addEventListener('click', openMenu);
+    if(menuClose) menuClose.addEventListener('click', closeMenu);
+    if(menuOverlay) menuOverlay.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('.slide-menu-links a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Scroll Reveal Animation
+    document.addEventListener('DOMContentLoaded', () => {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach((el) => {
+            observer.observe(el);
+        });
+    });
+
+    // Modal Logic
+    function openProductModal(cardElement) {
+        // Read directly from the hidden preview image tag
+        const previewElement = cardElement.querySelector('.preview-img');
+        const imgSrc = previewElement ? previewElement.getAttribute('src') : cardElement.querySelector('.product-img').getAttribute('src');
+        
+        document.getElementById('modal-img').setAttribute('src', imgSrc);
+        
+        const modal = document.getElementById('product-modal');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeProductModal() {
+        const modal = document.getElementById('product-modal');
+        modal.classList.remove('active');
+        document.body.style.overflow = ''; 
+    }
+
+    document.getElementById('product-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeProductModal();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('product-modal').classList.contains('active')) {
+            closeProductModal();
+        }
+    });
+</script>
+</body>
+</html>
